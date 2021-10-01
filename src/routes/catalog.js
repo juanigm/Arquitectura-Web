@@ -25,5 +25,3 @@ router.post('/catalog', (req, res) => {
 
 
 module.exports = router;
-
-//TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
