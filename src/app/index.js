@@ -15,8 +15,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //routes
-app.use(require('./routes/products'));
-app.use(require('./routes/catalog'));
+app.use(require('../routes/products'));
+app.use(require('../routes/catalog'));
 
 //Server
 app.listen(3000, ()=>{

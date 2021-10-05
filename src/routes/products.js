@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const mysqlConnection = require('../database');
+const mysqlConnection = require('../../data/database');
 
 router.get('/', (req, res) => {
     mysqlConnection.query('SELECT * FROM product', (err, rows, fields) => {
