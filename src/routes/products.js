@@ -25,6 +25,19 @@ router.get('/products/:id', (req, res) => {
 
 });
 
+router.get('/products/price/:price', (req, res) => {
+    const { price } = req.params;
+    mysqlConnection.query('SELECT * FROM product WHERE price = ?', [price], (err, rows, fields) => {
+        if(!err){
+            res.json(rows);
+        }else{
+            console.log(err);
+        }
+    });
+
+});
+
+
 router.post('/products', (req, res) => {
     const { name, brand, description, quantity, id_cat} = req.body;
     mysqlConnection.query('INSERT INTO product (product_id, name, brand, description, quantity, id_cat) VALUES (?, ?, ?, ?, ?, ?)', ["", name, brand, description, quantity, id_cat], (err, rows, fields) => {
