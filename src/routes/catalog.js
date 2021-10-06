@@ -1,25 +1,27 @@
 const { Router } = require('express');
 const router = Router();
 
-const catalog = require("../../data/catalog.json");
-//console.log(catalog);
+const mysqlConnection = require('../../data/database');
 
 router.get('/catalog', (req, res) => {
-    //Here, i have to query the DB but now i use a simple json to simulate de DB
-    //I will make the DB with mysql
-    res.json(catalog);
+    mysqlConnection.query('SELECT * FROM category', (err, rows, fields) => {
+        if(!err){
+            res.json(rows);
+        }else{
+            console.log(err);
+        }
+    });
 });
 
-router.post('/catalog', (req, res) => {
-    //console.log(req.body);
-    const {id, title} = req.body;
-    //Just i validate from de req, just for test.
-    if(id && title){
-        res.json('saved');
-    }
-    else{
-        res.send('Wrong request');
-    }
+router.get('/catalog/:id', (req, res) => {
+    const { id } = req.params;
+    mysqlConnection.query('SELECT * FROM category WHERE cat_id = ?',[id], (err, rows, fields) => {
+        if(!err){
+            res.json(rows);
+        }else{
+            console.log(err);
+        }
+    });
 });
 
 
