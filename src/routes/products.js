@@ -37,6 +37,19 @@ router.get('/products/price/:price', (req, res) => {
 
 });
 
+//For list products of some category and more expensive of some price;
+router.get('/products/:cat/:price', (req, res) => {
+    const cat = req.params.cat;
+    const price = req.params.price;
+    mysqlConnection.query('SELECT * FROM product WHERE cat_id = ? && price > ?',[cat, price], (err, rows, fields) => {
+        if(!err){
+            res.json(rows);
+        }else{
+            console.log(err);
+        }
+    });
+});
+
 
 router.post('/products', (req, res) => {
     const { name, brand, description, quantity, id_cat} = req.body;
