@@ -13,6 +13,18 @@ router.get('/products', (req, res) => {
     });
 });
 
+//This endpoit is for filter products 
+router.get('/filters', (req, res) => {
+    const queryParams = req.query;
+    mysqlConnection.query('SELECT * FROM product WHERE id_cat = ? && price < ?', [queryParams.cat, queryParams.price], (err, rows, fields) => {
+        if(!err){
+            res.json(rows);
+        }else{
+            console.log(err);
+        }
+    });
+});
+
 router.get('/products/:id', (req, res) => {
     const { id } = req.params;
     mysqlConnection.query('SELECT * FROM product WHERE product_id = ?', [id], (err, rows, fields) => {
@@ -38,17 +50,16 @@ router.get('/products/price/:price', (req, res) => {
 });
 
 //For list products of some category and more expensive of some price;
-router.get('/products/:cat/:price', (req, res) => {
-    const cat = req.params.cat;
-    const price = req.params.price;
-    mysqlConnection.query('SELECT * FROM product WHERE cat_id = ? && price > ?',[cat, price], (err, rows, fields) => {
+/*router.get('/products/a', (req, res) => {
+    const queryParameter = req.query;
+    mysqlConnection.query('SELECT * FROM product WHERE cat_id = ? && price > ?',[queryParameter.cat, queryParameter.price], (err, rows, fields) => {
         if(!err){
             res.json(rows);
         }else{
             console.log(err);
         }
     });
-});
+});*/
 
 
 router.post('/products', (req, res) => {
@@ -79,6 +90,18 @@ router.delete('/products/:id', (req, res) => {
     mysqlConnection.query('DELETE FROM product WHERE product_id = ?', [id],(err, rows, fields) =>{
         if(!err){
             res.json({Status: 'Porduct deleted'});
+        }else{
+            console.log(err);
+        }
+    });
+});
+
+router.patch('/products/:id', (req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+    mysqlConnection.query('UPDATE product SET product_id = ?, name = ?, brand = ?, description = ?, price = ?,quantity = ?, id_cat = ? WHERE product_id = ?', [value],(err, rows, fields) =>{
+        if(!err){
+            res.json({Status: 'Porduct updated'});
         }else{
             console.log(err);
         }
