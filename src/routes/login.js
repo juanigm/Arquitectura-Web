@@ -4,7 +4,7 @@ const router = Router();
 const mysqlConnection = require('../../data/database');
 
 
-//ASK HOW CAN I USER THE QUERY PARAMETERS FOR THE LOGIN. Use de query parameters, and make de query from query params.
+//ASK HOW I CAN USE THE QUERY PARAMETERS FOR THE LOGIN. Use de query parameters, and make de query from query params.
 router.post('/', (req, res) => {
     const { email, password }= req.body;
     mysqlConnection.query('SELECT * FROM client WHERE email = ? && password = ?',[email, password], (err, rows, fields) => {
@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
         if(resultArray.length != 0){
             res.json({Status: 'Login success'});
         }else{
-            res.json({Status: 'Login error'});
+            res.json({Status: 'NotFound'});
             console.log(err);
         }
     });
