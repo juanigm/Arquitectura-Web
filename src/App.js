@@ -21,6 +21,8 @@ function App() {
 
     const[products, setProducts] = useState([]);
 
+    const [listUpdated, setListUpdated] = useState(false)
+
     useEffect(() => {
       const getProducts = () => {
         fetch('http://localhost:4000/products')
@@ -28,7 +30,8 @@ function App() {
         .then(res => setProducts(res))
       }
       getProducts();
-    }, [])
+      setListUpdated(false);
+    }, [listUpdated])
 
   return (
     <Fragment>
@@ -37,7 +40,7 @@ function App() {
         <div className='row'>
           <div className='col-7'>
             <h2 style={{textAling: 'center'}}>Product List</h2>
-            <ProductList products={products}/>
+            <ProductList products={products} setListUpdated={setListUpdated}/>
           </div>
           <div className='col-5'>
             <h2 style={{textAling: 'center'}}>Product Form</h2>

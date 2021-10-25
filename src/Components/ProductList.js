@@ -1,6 +1,21 @@
 import React from "react";
 
-const PorductList = ({products}) => {
+
+
+const PorductList = ({products, setListUpdated}) => {
+
+
+    const handleDelete = id =>{
+        const requestInit = {
+            method: 'DELETE',
+        }
+        fetch('http://localhost:4000/products/' + id, requestInit)
+        .then(res => res.text('Book Deleted'))
+        .then(res => console.log('Product saved'))
+
+        setListUpdated(true);
+    }
+
     return (
         <table className="table">
             <tboddy>
@@ -18,13 +33,18 @@ const PorductList = ({products}) => {
                 <thead>
                     {products.map(product => (
                         <tr key={product.product_id}>
-                            <th>{product.product_id}</th>
-                            <th>{product.name}</th>
-                            <th>{product.brand}</th>
-                            <th>{product.price}</th>
-                            <th>{product.description}</th>
-                            <th>{product.quantity}</th>
-                            <th>{product.id_cat}</th>
+                            <td>{product.product_id}</td>
+                            <td>{product.name}</td>
+                            <td>{product.brand}</td>
+                            <td>{product.price}</td>
+                            <td>{product.description}</td>
+                            <td>{product.quantity}</td>
+                            <td>{product.id_cat}</td>
+                            <td>
+                                <div className="mb-3">
+                                    <button onClick={() => handleDelete(product.id)} className="btn btn-danger">Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </thead>
