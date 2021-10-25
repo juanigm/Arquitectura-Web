@@ -10,6 +10,15 @@ import Form from './Components/From';
 
 function App() {
 
+  const [product, setProduct] = useState({
+    name: '',
+    brand: '',
+    price: 0,
+    description: '',
+    quantity: 0,
+    category: 0
+  });
+
     const[products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -32,7 +41,7 @@ function App() {
           </div>
           <div className='col-5'>
             <h2 style={{textAling: 'center'}}>Product Form</h2>
-            <Form/>
+            <Form product = {product} setProduct = {setProduct}/>
           </div>
         </div>
       </div>
