@@ -2,7 +2,8 @@ import React from "react";
 
 
 
-const PorductList = ({products, setListUpdated}) => {
+
+const PorductList = ({product, setProduct, products, setListUpdated}) => {
 
 
     const handleDelete = id =>{
@@ -10,8 +11,36 @@ const PorductList = ({products, setListUpdated}) => {
             method: 'DELETE',
         }
         fetch('http://localhost:4000/products/' + id, requestInit)
+        .then(res => res.text('Product Deleted'))
+        .then(res => console.log(res))
+
+        setListUpdated(true);
+    }
+
+    let{name, brand, price, description, quantity, category} = product
+
+    const handleUpdate = id =>{
+        if(name === '' || brand === '' || price <= 0 || description === '' || quantity <= 0 || category <= 0){
+            alert('All fields are requerid')
+            return
+        }
+        const requestInit = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(product)
+        }
+        fetch('http://localhost:4000/products/' + id, requestInit)
         .then(res => res.text('Book Deleted'))
-        .then(res => console.log('Product saved'))
+        .then(res => console.log(res))
+
+        setProduct ({
+            name: '',
+            brand: '',
+            price: 0,
+            description: '',
+            quantity: 0,
+            category: 0
+        })
 
         setListUpdated(true);
     }
@@ -27,7 +56,7 @@ const PorductList = ({products, setListUpdated}) => {
                         <th>Price</th>
                         <th>Description</th>
                         <th>Quantity</th>
-                        <th>Catergory</th>
+                        <th>Category</th>
                     </tr>
                 </thead>
                 <thead>
@@ -42,7 +71,10 @@ const PorductList = ({products, setListUpdated}) => {
                             <td>{product.id_cat}</td>
                             <td>
                                 <div className="mb-3">
-                                    <button onClick={() => handleDelete(product.id)} className="btn btn-danger">Delete</button>
+                                    <button onClick={() => handleDelete(product.product_id)} className="btn btn-danger">Delete</button>
+                                </div>
+                                <div className="mb-3">
+                                    <button onClick={() => handleUpdate(product.product_id)} className="btn btn-dark">Update</button>
                                 </div>
                             </td>
                         </tr>

@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 //Import Components
@@ -40,7 +39,7 @@ function App() {
         <div className='row'>
           <div className='col-7'>
             <h2 style={{textAling: 'center'}}>Product List</h2>
-            <ProductList products={products} setListUpdated={setListUpdated}/>
+            <ProductList product={product} setProduct={setProduct} products={products} setListUpdated={setListUpdated}/>
           </div>
           <div className='col-5'>
             <h2 style={{textAling: 'center'}}>Product Form</h2>

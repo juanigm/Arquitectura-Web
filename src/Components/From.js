@@ -29,12 +29,12 @@ const Form = ({product, setProduct}) => {
             body: JSON.stringify(product)
         }
         fetch('http://localhost:4000/products', requestInit)
-        .then(res => res.json())
-        .then(res => console.log('Product saved'))
-
+        .then(res => res.json(product))
+        .then(res => console.log(res))
+        
         //For restart product state
         setProduct ({
-            name: '',
+            name: '',   
             brand: '',
             price: 0,
             description: '',
@@ -55,7 +55,7 @@ const Form = ({product, setProduct}) => {
                 <input value={brand} name="brand" onChange={handleChange} type="text" id="brand" className="form-control"/>
             </div>
             <div className="mb-3">
-                <label htmlFor="price" className="form-label">price</label>
+                <label htmlFor="price" className="form-label">Price</label>
                 <input value={price} name="price" onChange={handleChange} type="text" id="price" className="form-control"/>
             </div>
             <div className="mb-3">
