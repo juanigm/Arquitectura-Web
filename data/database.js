@@ -3,7 +3,7 @@ const mysqlConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'tp-arq-web'
+    database: 'tp_arq_web_2'
 })
 
 mysqlConnection.connect(function (err){

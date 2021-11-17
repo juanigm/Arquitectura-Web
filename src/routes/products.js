@@ -63,9 +63,10 @@ router.get('/products/price/:price', (req, res) => {
 
 
 router.post('/products', (req, res) => {
-    const { name, brand, description, quantity, id_cat} = req.body;
-    mysqlConnection.query('INSERT INTO product (product_id, name, brand, description, quantity, id_cat) VALUES (?, ?, ?, ?, ?, ?)', ["", name, brand, description, quantity, id_cat], (err, rows, fields) => {
+    const { name, brand, price, description, quantity, id_cat} = req.body;
+    mysqlConnection.query('INSERT INTO product (product_id, name, brand, price, description, quantity, id_cat) VALUES (?, ?, ?, ?, ?, ?, ?)', ["", name, brand, price, description, quantity, id_cat], (err, rows, fields) => {
         if(!err){
+            console.log(name, brand, price, description, quantity, id_cat)
             res.json({Status: 'Porduct saved'});
         }else{
             console.log(err);
@@ -76,8 +77,10 @@ router.post('/products', (req, res) => {
 router.put('/products/:id', (req, res) => {
     const { id } = req.params;
     const { name, brand, description, quantity, price, id_cat } = req.body;
+    console.log(name, brand, price, description, quantity, id_cat)
     mysqlConnection.query('UPDATE product SET product_id = ?, name = ?, brand = ?, description = ?, price = ?,quantity = ?, id_cat = ? WHERE product_id = ?', [id, name, brand, description, price, quantity, id_cat, id],(err, rows, fields) =>{
         if(!err){
+            console.log(name, brand, price, description, quantity, id_cat)
             res.json({Status: 'Porduct updated'});
         }else{
             console.log(err);
