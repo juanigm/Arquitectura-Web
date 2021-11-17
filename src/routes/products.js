@@ -6,15 +6,19 @@ const mysqlConnection = require('../../data/database');
 router.get('/products', (req, res) => {
     mysqlConnection.query('SELECT * FROM product', (err, rows, fields) => {
         if(!err){
-            res.json(rows);
+            res.status(200).json(rows);
         }else{
+            res.status(400).json({
+                status: 'Bad Request',
+                code: '400'
+            })
             console.log(err);
         }
     });
 });
 
 //This endpoit is for filter products 
-router.get('/filters', (req, res) => {
+router.get('/products/filters', (req, res) => {
     const queryParams = req.query;
     mysqlConnection.query('SELECT * FROM product WHERE id_cat = ? && price < ?', [queryParams.cat, queryParams.price], (err, rows, fields) => {
         if(!err){
@@ -29,9 +33,11 @@ router.get('/products/:id', (req, res) => {
     const { id } = req.params;
     mysqlConnection.query('SELECT * FROM product WHERE product_id = ?', [id], (err, rows, fields) => {
         if(!err){
-            res.json(rows);
+            res.status(200).json(rows);
         }else{
-            console.log(err);
+            res.status(404).json({
+                status: 'Not Found'
+            });
         }
     });
 
@@ -67,9 +73,13 @@ router.post('/products', (req, res) => {
     mysqlConnection.query('INSERT INTO product (product_id, name, brand, price, description, quantity, id_cat) VALUES (?, ?, ?, ?, ?, ?, ?)', ["", name, brand, price, description, quantity, id_cat], (err, rows, fields) => {
         if(!err){
             console.log(name, brand, price, description, quantity, id_cat)
-            res.json({Status: 'Porduct saved'});
+            res.status(201).json({
+                Status: 'Porduct saved'
+            });
         }else{
-            console.log(err);
+            res.status(400).json({
+                Status: 'Bad request'
+            });
         }
     });
 });
@@ -81,9 +91,13 @@ router.put('/products/:id', (req, res) => {
     mysqlConnection.query('UPDATE product SET product_id = ?, name = ?, brand = ?, description = ?, price = ?,quantity = ?, id_cat = ? WHERE product_id = ?', [id, name, brand, description, price, quantity, id_cat, id],(err, rows, fields) =>{
         if(!err){
             console.log(name, brand, price, description, quantity, id_cat)
-            res.json({Status: 'Porduct updated'});
+            res.status(201).json({
+                Status: 'Porduct updated'
+            });
         }else{
-            console.log(err);
+            res.status(404).json({
+                Status: 'Not Found'
+            });
         }
     });
 });
@@ -92,9 +106,13 @@ router.delete('/products/:id', (req, res) => {
     const { id } = req.params;
     mysqlConnection.query('DELETE FROM product WHERE product_id = ?', [id],(err, rows, fields) =>{
         if(!err){
-            res.json({Status: 'Porduct deleted'});
+            res.status(200).json({
+                Status: 'Porduct deleted'
+            });
         }else{
-            console.log(err);
+            res.status(404).json({
+                Status: 'Not Found'
+            });
         }
     });
 });
@@ -104,9 +122,13 @@ router.patch('/products/:id', (req, res) => {
     const { value } = req.body;
     mysqlConnection.query('UPDATE product SET product_id = ?, name = ?, brand = ?, description = ?, price = ?,quantity = ?, id_cat = ? WHERE product_id = ?', [value],(err, rows, fields) =>{
         if(!err){
-            res.json({Status: 'Porduct updated'});
+            res.status(201).json({
+                Status: 'Porduct updated'
+            });
         }else{
-            console.log(err);
+            res.status(404).json({
+                Status: 'Not Found'
+            });
         }
     });
 });
