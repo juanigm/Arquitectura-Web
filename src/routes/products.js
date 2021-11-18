@@ -43,9 +43,9 @@ router.get('/products/:id', (req, res) => {
 
 });
 
-router.get('/products/price/:price', (req, res) => {
+router.get('/products/:price', (req, res) => {
     const { price } = req.params;
-    mysqlConnection.query('SELECT * FROM product WHERE price = ?', [price], (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM product WHERE price > ?', [price], (err, rows, fields) => {
         if(!err){
             res.json(rows);
         }else{

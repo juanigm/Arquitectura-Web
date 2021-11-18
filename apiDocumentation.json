@@ -1,0 +1,553 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API REST of PRODUCTS.",
+    "description": "This API responsibvle for making a CRUD of products trhough a logged in client.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:4000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login",
+      "description": "This endpoint is for loggin page relationated with clients data."
+    },
+    {
+      "name": "products",
+      "description": "This endpoint is for all information of products"
+    },
+    {
+      "name": "category",
+      "description": "This endpoint is for all information of categories"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Use de information for comparate to client data",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bodyLoginPost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "(OK) 200 login success"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "login"
+        ],
+        "summary": "get client infromation from all clients from  database",
+        "responses": {
+          "200": {
+            "$ref": "#/components/schemas/GetClients"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "get information for all products from the database",
+        "responses": {
+          "200": {
+            "$ref": "#/components/schemas/GetProducts"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Use de information for comparate to product data",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostProducts"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "(OK) 200 login success"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Get a product by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Th product information was correct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProducts"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Update product",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Th product was updated"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Update product",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Th product was updated"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Delete product certain id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Th product was deleted"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/products/{price}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "summary": "Get a products with a price higher than the certain price",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "price",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric price of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Th product information was correct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProducts"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/category": {
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "get information for all categories from the database",
+        "responses": {
+          "200": {
+            "description": "Th category information was correct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "create a new category",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCategories"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "(OK) 200 category created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/category/{categoryId}": {
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Get a category by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the category to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The category information was correct",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategories"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete product certain id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the category to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The category was deleted"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Delete category certain id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the category to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The category was deleted"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Ok": {
+        "description": "everything has been processed correctly."
+      },
+      "NotFound": {
+        "description": "(NotFound) incorrect data"
+      },
+      "BadRequest": {
+        "description": "(badRequest) the information sent is not correct or there is mandatory data that was not sent"
+      },
+      "Conflict": {
+        "description": "(Conflict) the request could not be completed because there was a problem with it."
+      }
+    },
+    "schemas": {
+      "bodyLoginPost": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "client email"
+          },
+          "password": {
+            "type": "number",
+            "description": "client password"
+          }
+        }
+      },
+      "GetClients": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "client id"
+          },
+          "email": {
+            "type": "string",
+            "description": "client email"
+          },
+          "password": {
+            "type": "number",
+            "description": "client password"
+          }
+        }
+      },
+      "PostProducts": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "product name"
+          },
+          "brand": {
+            "type": "string",
+            "description": "product brand"
+          },
+          "description": {
+            "type": "string",
+            "description": "product description"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "product quantity"
+          },
+          "price": {
+            "type": "integer",
+            "description": "product price"
+          },
+          "cat_id": {
+            "type": "integer",
+            "description": "category of product"
+          }
+        }
+      },
+      "GetProducts": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "product id"
+          },
+          "name": {
+            "type": "string",
+            "description": "product name"
+          },
+          "brand": {
+            "type": "string",
+            "description": "product brand"
+          },
+          "description": {
+            "type": "string",
+            "description": "product description"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "product quantity"
+          },
+          "price": {
+            "type": "integer",
+            "description": "product price"
+          },
+          "cat_id": {
+            "type": "integer",
+            "description": "category of product"
+          }
+        }
+      },
+      "GetCategories": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "category id"
+          },
+          "description": {
+            "type": "string",
+            "description": "product name"
+          }
+        }
+      },
+      "PostCategories": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

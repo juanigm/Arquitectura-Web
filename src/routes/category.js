@@ -55,21 +55,28 @@ router.put('/category/:id', (req, res) => {
     });
 });
 
-router.delete('/category/:id', (req, res) => {
+router.delete('/category/:id', async (req, res) => {
     const { id } = req.params;
-    mysqlConnection.query('DELETE FROM category WHERE cat_id = ?', [id],(err, rows, fields) =>{
-        console.log(id);
-        console.log(err);   
-        if(!err){
+    await mysqlConnection.query('DELETE FROM category WHERE cat_id = ?', [id],(err, rows, fields) =>{
+        if(fields > 0){
             res.status(200).json({
                 Status: 'Category deleted'
             });
         }else{
-            res.status(409).json({
-                Status: 'Conflict',
-                message: 'Cannot delete or update a parent row',
-                code: '409'
-            });
+            if(!err){
+                res.status(409).json({
+                    Status: 'Bad Request',
+                    message: 'Invalid category',
+                    code: '404'
+                });
+            }else{
+                res.status(409).json({
+                    Status: 'Conflict',
+                    message: 'Cannot delete or update a parent row',
+                    code: '409'
+                });
+            }
+            
         }
     });
 });

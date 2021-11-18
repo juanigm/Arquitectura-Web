@@ -15,13 +15,29 @@ router.post('/', (req, res) => {
                 code: '200'
             });
         }else{
-            res.status(400).json({
-                status: 'Bad Request',
-                code: '400'
+            res.status(404).json({
+                status: 'Not Found',
+                code: '404'
             });
         }
     });
 });
+
+router.get('/', (req, res) => {
+    const { email, password} = req.body;
+    mysqlConnection.query('SELECT * FROM client', (err, rows, fields) => {
+        if(!err){
+            res.status(201).json(rows);
+        }else{
+            res.status(400).json({
+                Status: 'Bad Ruest',
+                code: '400'
+            });
+            console.log(err);
+        }
+    });
+});
+
 
 router.post('/', (req, res) => {
     const { email, password} = req.body;
